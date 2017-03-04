@@ -41,22 +41,24 @@ model.add(LSTM(100))
 model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 print(model.summary())
-# model.fit(X_train, y_train, nb_epoch=3, batch_size=64)
-model.fit(X_train[0:train_partial, :], y_train[0:train_partial], nb_epoch=1, batch_size=64)
+model.fit(X_train, y_train, nb_epoch=3, batch_size=64)
+# model.fit(X_train[0:train_partial, :], y_train[0:train_partial], nb_epoch=1, batch_size=64)
 
 # First evaluation of the model
-scores = model.evaluate(X_test[0:test_partial, :], y_test[0:test_partial], verbose=0)
+scores = model.evaluate(X_test, y_test, verbose=0)
+# scores = model.evaluate(X_test[0:test_partial, :], y_test[0:test_partial], verbose=0)
 print("Accuracy of Run Model: %.2f%%" % (scores[1]*100))
 
-model.save('saved_models/0.0.1_model.h5')
+model.save('saved_models/0.0.2_model.h5')
 
 del model  # deletes the existing model
 
 # returns a compiled model identical to the previous one
-model = load_model('saved_models/0.0.1_model.h5')
+model = load_model('saved_models/0.0.2_model.h5')
 
 # Final evaluation of the model
-scores = model.evaluate(X_test[0:test_partial, :], y_test[0:test_partial], verbose=0)
-print("Accuracy of Disk-Loaded Model: %.2f%%" % (scores[1]*100))
+disk_loaded_scores = model.evaluate(X_test, y_test, verbose=0)
+# scores = model.evaluate(X_test[0:test_partial, :], y_test[0:test_partial], verbose=0)
+print("Accuracy of Disk-Loaded Model: %.2f%%" % (disk_loaded_scores[1]*100))
 
-# Mar 3, 2017 Accuracy of Disk-Loaded Model: 51.40%
+# Mar 3, 2017 Accuracy of Run Model: 88.10%
