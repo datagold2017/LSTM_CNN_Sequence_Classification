@@ -22,14 +22,6 @@ max_review_length = 500
 X_train = sequence.pad_sequences(X_train, maxlen=max_review_length)
 X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
 
-# Partial data
-train_size = numpy.size(X_train[:, 0])
-test_size = numpy.size(X_test[:, 0])
-# print(train_size, test_size)
-partial = .1
-train_partial = int(train_size * partial)
-test_partial = int(test_size * partial)
-
 # create the model
 embedding_vector_length = 32
 model = Sequential()
@@ -55,7 +47,6 @@ model = load_model('../saved_models/0.0.4_model.h5')
 
 # Final evaluation of the model
 disk_loaded_scores = model.evaluate(X_test, y_test, verbose=0)
-# scores = model.evaluate(X_test[0:test_partial, :], y_test[0:test_partial], verbose=0)
 print("Accuracy of Disk-Loaded Model: %.2f%%" % (disk_loaded_scores[1]*100))
 
 # Mar 7, 2017 Accuracy of Disk-Loaded Model on 10 epochs: 88.43%
